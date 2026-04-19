@@ -1,46 +1,46 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
 {
-	"name": "Node.js & TypeScript",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:4-24-trixie",
+  "name": "Node.js & TypeScript",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:4-24-trixie",
 
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  // "features": {},
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [8787],
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [8787],
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "yarn install",
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // "postCreateCommand": "yarn install",
 
-	// Configure tool-specific properties.
-	"customizations": {
-  "vscode": {
-    "extensions": [
-    "ics.japanese-proofreading",
-      "esbenp.prettier-vscode",
-      "formulahendry.auto-rename-tag",
-      "usernamehw.errorlens",
-      "ritwickdey.LiveServer",
-      "christian-kohler.path-intellisense",
-      "mhutchie.git-graph",
-      "vincaslt.highlight-matching-tag",
-      "oderwat.indent-rainbow",
-      "formulahendry.code-runner",
-      "street side software.code-spell-checker",
-      "pranayprakash.vscode-css-peek",
-      "mikestead.dotenv",
-      "google.gemini-code-assist",
-      "ecmel.vscode-html-css",
-      "anikethsaha.htmllinter",
-      "kisstamas.vscode-image-preview",
-      "glennmccomb.livedoc-sass-compiler",
-      "ms-ceintl.vscode-language-pack-ja" 
-    ]
+  // Configure tool-specific properties.
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ics.japanese-proofreading",
+        "esbenp.prettier-vscode",
+        "formulahendry.auto-rename-tag",
+        "usernamehw.errorlens",
+        "ritwickdey.LiveServer",
+        "christian-kohler.path-intellisense",
+        "mhutchie.git-graph",
+        "vincaslt.highlight-matching-tag",
+        "oderwat.indent-rainbow",
+        "formulahendry.code-runner",
+        "streetsidesoftware.code-spell-checker",
+        "pranayprakash.vscode-css-peek",
+        "mikestead.dotenv",
+        "google.gemini-code-assist",
+        "ecmel.vscode-html-css",
+        "anikethsaha.htmllinter",
+        "kisstamas.vscode-image-preview",
+        "glennmccomb.livedoc-sass-compiler",
+        "ms-ceintl.vscode-language-pack-ja"
+      ]
+    }
   }
-}
 
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // "remoteUser": "root"
 }
