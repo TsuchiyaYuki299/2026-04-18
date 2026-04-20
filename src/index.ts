@@ -4,7 +4,6 @@ import { basicAuth } from "hono/basic-auth";
 type AppBindings = CloudflareBindings & {
   tezu_memories_db: D1Database;
   tezu_memories_bucket: R2Bucket;
-  // ▼ 追加：環境変数から受け取る値の型を定義
   BASIC_USERNAME: string;
   BASIC_PASSWORD: string;
 };
@@ -18,7 +17,6 @@ type MemoryRecord = {
 
 const app = new Hono<{ Bindings: AppBindings }>();
 
-// ▼ 修正：環境変数（c.env）からユーザー名とパスワードを読み込む
 app.use("*", async (c, next) => {
   const auth = basicAuth({
     username: c.env.BASIC_USERNAME,
@@ -126,8 +124,8 @@ app.get("/upload", (c) => {
             <input type="file" name="image" accept="image/*" required class="block w-full text-sm text-slate-500 file:mr-4 file:rounded-full file:border-0 file:bg-sky-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-sky-700 hover:file:bg-sky-100" />
           </div>
           <div>
-            <label class="mb-2 block text-sm font-medium text-slate-700">メッセージ</label>
-            <textarea name="message" rows="4" required class="block w-full rounded-2xl border border-slate-300 bg-sky-50 p-4 shadow-sm focus:border-sky-500 focus:ring-sky-500" placeholder="ありがとう、また会おうね"></textarea>
+            <label class="mb-2 block text-sm font-medium text-slate-700">いつ、どんな場面？</label>
+            <textarea name="message" rows="4" required class="block w-full rounded-2xl border border-slate-300 bg-sky-50 p-4 shadow-sm focus:border-sky-500 focus:ring-sky-500" placeholder="例：2025年の夏、みんなでお散歩に行きました。"></textarea>
           </div>
           <div class="flex items-center justify-between pt-4">
             <a href="/" class="text-sm font-medium text-sky-600 hover:text-sky-800">← 戻る</a>
