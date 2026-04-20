@@ -51,18 +51,57 @@ const renderMemoryCard = (memory: MemoryRecord, index: number) => {
     </div>`
     : "";
 
+  const motifType = index % 3;
+  let motifHtml = "";
+
+  if (motifType === 0) {
+    // ① ピンクのお花 (修正後：写真の前に、右下に移動)
+    motifHtml = `
+      <div class="absolute -bottom-10 -right-10 flex justify-center items-center z-20 opacity-95 drop-shadow-lg">
+        <div class="absolute w-28 h-28 bg-pink-100 rounded-full -rotate-[15deg] translate-x-6"></div>
+        <div class="absolute w-32 h-32 bg-rose-50 rounded-full rotate-[15deg] -translate-x-6"></div>
+        <div class="absolute w-24 h-28 bg-pink-100 rounded-full -rotate-[60deg] -translate-y-4"></div>
+        <div class="absolute w-24 h-28 bg-rose-50 rounded-full rotate-[60deg] -translate-y-4"></div>
+        <div class="absolute w-30 h-30 bg-rose-100 rounded-full z-10"></div>
+        <div class="w-14 h-14 bg-yellow-100 rounded-full absolute z-20 flex items-center justify-center">
+          <div class="w-8 h-8 bg-amber-200 rounded-full"></div>
+        </div>
+      </div>
+    `;
+  } else if (motifType === 1) {
+    // ② 爽やかな若葉 (現状維持：想像通りでこのままが良い)
+    motifHtml = `
+      <div class="absolute -bottom-12 left-1/2 flex -translate-x-1/2 justify-center items-end z-0 opacity-95 drop-shadow-sm w-[120%]">
+        <div class="w-28 h-28 bg-lime-200 -rotate-12 translate-x-10" style="border-radius: 100% 0 100% 0;"></div>
+        <div class="w-32 h-32 bg-green-200 -rotate-45 z-10 translate-y-6" style="border-radius: 100% 0 100% 0;"></div>
+        <div class="w-28 h-28 bg-emerald-200 rotate-12 -translate-x-10" style="border-radius: 0 100% 0 100%;"></div>
+      </div>
+    `;
+  } else {
+    // ③ 黄色いお花と葉っぱ (現状維持)
+    motifHtml = `
+      <div class="absolute -bottom-16 left-1/2 flex -translate-x-1/2 justify-center items-center z-0 opacity-95 drop-shadow-md w-[130%]">
+        <div class="w-24 h-24 bg-green-200 absolute -left-6 top-8 -rotate-[60deg]" style="border-radius: 100% 0 100% 0;"></div>
+        <div class="w-24 h-24 bg-green-200 absolute -right-6 top-8 rotate-[60deg]" style="border-radius: 0 100% 0 100%;"></div>
+        
+        <div class="absolute w-28 h-28 bg-amber-100 rounded-full -rotate-[15deg] translate-x-6"></div>
+        <div class="absolute w-32 h-32 bg-yellow-50 rounded-full rotate-[15deg] -translate-x-6"></div>
+        <div class="absolute w-24 h-28 bg-amber-100 rounded-full -rotate-[60deg] -translate-y-4"></div>
+        <div class="absolute w-24 h-28 bg-yellow-50 rounded-full rotate-[60deg] -translate-y-4"></div>
+        <div class="absolute w-30 h-30 bg-yellow-100 rounded-full z-10"></div>
+        <div class="w-14 h-14 bg-orange-100 rounded-full absolute z-20 flex items-center justify-center">
+          <div class="w-8 h-8 bg-amber-200 rounded-full"></div>
+        </div>
+      </div>
+    `;
+  }
+
   return `
     <article class="relative flex flex-col ${flexDir} items-center justify-center gap-12 sm:gap-24 py-16">
       ${rainbowSvg}
 
       <div class="relative shrink-0 w-64 h-64 sm:w-80 sm:h-80">
-        <div class="absolute -bottom-16 left-1/2 w-[160%] -translate-x-1/2 flex justify-center items-end z-0 opacity-95 drop-shadow-sm">
-          <div class="w-20 h-20 bg-white rounded-full translate-x-10"></div>
-          <div class="w-28 h-28 bg-white rounded-full translate-x-6"></div>
-          <div class="w-44 h-40 bg-white rounded-full z-10"></div>
-          <div class="w-32 h-32 bg-white rounded-full -translate-x-6"></div>
-          <div class="w-24 h-24 bg-white rounded-full -translate-x-12"></div>
-        </div>
+        ${motifHtml}
 
         <div class="relative z-10 h-full w-full p-3 bg-white shadow-xl rounded-sm ${isEven ? "rotate-2" : "-rotate-2"} transition-transform duration-500 hover:rotate-0">
           <img
@@ -79,6 +118,8 @@ const renderMemoryCard = (memory: MemoryRecord, index: number) => {
     </article>
   `;
 };
+
+// ...（app.get("/images/:key"), app.get("/upload"), app.post("/upload"), app.get("/") は変更なし）
 
 app.get("/images/:key", async (c) => {
   const key = c.req.param("key");
@@ -125,7 +166,7 @@ app.get("/upload", (c) => {
           </div>
           <div>
             <label class="mb-2 block text-sm font-medium text-slate-700">いつ、どんな場面？</label>
-            <textarea name="message" rows="4" required class="block w-full rounded-2xl border border-slate-300 bg-sky-50 p-4 shadow-sm focus:border-sky-500 focus:ring-sky-500" placeholder="例：2025年の夏、みんなでお散歩に行きました。"></textarea>
+            <textarea name="message" rows="4" required class="block w-full rounded-2xl border border-slate-300 bg-sky-50 p-4 shadow-sm focus:border-sky-500 focus:ring-sky-500" placeholder="例：2025年の夏、みんなでお散歩に行った時の写真です。"></textarea>
           </div>
           <div class="flex items-center justify-between pt-4">
             <a href="/" class="text-sm font-medium text-sky-600 hover:text-sky-800">← 戻る</a>
