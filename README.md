@@ -1,6 +1,6 @@
 # てづちゃんとの思い出 - 楽園でまた会う日まで
 
-https://tezu-memories.tsuchiyayuki299.workers.dev/
+https://tezu-memories.tsuchiyayuki299.workers.dev/?openExternalBrowser=1
 
 てづちゃんとの大切な思い出の写真を持ち寄り、みんなで共有するためのプライベートなWebサイトです。
 
