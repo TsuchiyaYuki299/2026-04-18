@@ -1,8 +1,12 @@
 import { Hono } from "hono";
+import { basicAuth } from "hono/basic-auth";
 
 type AppBindings = CloudflareBindings & {
   tezu_memories_db: D1Database;
   tezu_memories_bucket: R2Bucket;
+  // ▼ 追加：環境変数から受け取る値の型を定義
+  BASIC_USERNAME: string;
+  BASIC_PASSWORD: string;
 };
 
 type MemoryRecord = {
@@ -13,6 +17,15 @@ type MemoryRecord = {
 };
 
 const app = new Hono<{ Bindings: AppBindings }>();
+
+// ▼ 修正：環境変数（c.env）からユーザー名とパスワードを読み込む
+app.use("*", async (c, next) => {
+  const auth = basicAuth({
+    username: c.env.BASIC_USERNAME,
+    password: c.env.BASIC_PASSWORD,
+  });
+  return auth(c, next);
+});
 
 const escapeHtml = (value: string) =>
   value
