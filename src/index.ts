@@ -55,9 +55,8 @@ const renderMemoryCard = (memory: MemoryRecord, index: number) => {
   let motifHtml = "";
 
   if (motifType === 0) {
-    // ① ピンクのお花 (修正後：写真の前に、右下に移動)
     motifHtml = `
-      <div class="absolute -bottom-10 -right-10 flex justify-center items-center z-20 opacity-95 drop-shadow-lg">
+      <div class="absolute -bottom-8 -right-8 sm:-bottom-10 sm:-right-10 flex justify-center items-center z-20 opacity-95 drop-shadow-lg scale-[0.8] sm:scale-100 origin-bottom-right">
         <div class="absolute w-28 h-28 bg-pink-100 rounded-full -rotate-[15deg] translate-x-6"></div>
         <div class="absolute w-32 h-32 bg-rose-50 rounded-full rotate-[15deg] -translate-x-6"></div>
         <div class="absolute w-24 h-28 bg-pink-100 rounded-full -rotate-[60deg] -translate-y-4"></div>
@@ -69,21 +68,18 @@ const renderMemoryCard = (memory: MemoryRecord, index: number) => {
       </div>
     `;
   } else if (motifType === 1) {
-    // ② 爽やかな若葉 (現状維持：想像通りでこのままが良い)
     motifHtml = `
-      <div class="absolute -bottom-12 left-1/2 flex -translate-x-1/2 justify-center items-end z-0 opacity-95 drop-shadow-sm w-[120%]">
+      <div class="absolute -bottom-10 left-1/2 flex -translate-x-1/2 justify-center items-end z-0 opacity-95 drop-shadow-sm w-[120%] scale-[0.8] sm:scale-100 origin-bottom">
         <div class="w-28 h-28 bg-lime-200 -rotate-12 translate-x-10" style="border-radius: 100% 0 100% 0;"></div>
         <div class="w-32 h-32 bg-green-200 -rotate-45 z-10 translate-y-6" style="border-radius: 100% 0 100% 0;"></div>
         <div class="w-28 h-28 bg-emerald-200 rotate-12 -translate-x-10" style="border-radius: 0 100% 0 100%;"></div>
       </div>
     `;
   } else {
-    // ③ 黄色いお花と葉っぱ (現状維持)
     motifHtml = `
-      <div class="absolute -bottom-16 left-1/2 flex -translate-x-1/2 justify-center items-center z-0 opacity-95 drop-shadow-md w-[130%]">
+      <div class="absolute -bottom-12 left-1/2 flex -translate-x-1/2 justify-center items-center z-0 opacity-95 drop-shadow-md w-[130%] scale-[0.8] sm:scale-100 origin-bottom">
         <div class="w-24 h-24 bg-green-200 absolute -left-6 top-8 -rotate-[60deg]" style="border-radius: 100% 0 100% 0;"></div>
         <div class="w-24 h-24 bg-green-200 absolute -right-6 top-8 rotate-[60deg]" style="border-radius: 0 100% 0 100%;"></div>
-        
         <div class="absolute w-28 h-28 bg-amber-100 rounded-full -rotate-[15deg] translate-x-6"></div>
         <div class="absolute w-32 h-32 bg-yellow-50 rounded-full rotate-[15deg] -translate-x-6"></div>
         <div class="absolute w-24 h-28 bg-amber-100 rounded-full -rotate-[60deg] -translate-y-4"></div>
@@ -97,29 +93,30 @@ const renderMemoryCard = (memory: MemoryRecord, index: number) => {
   }
 
   return `
-    <article class="relative flex flex-col ${flexDir} items-center justify-center gap-12 sm:gap-24 py-16">
+    <article class="relative flex flex-col ${flexDir} items-center justify-center gap-10 sm:gap-16 py-12 sm:py-16">
       ${rainbowSvg}
 
-      <div class="relative shrink-0 w-64 h-64 sm:w-80 sm:h-80">
-        ${motifHtml}
+      <div class="relative flex justify-center shrink-0 w-full md:w-[60%] lg:w-[65%] mt-8 sm:mt-0">
+        
+        <div class="relative inline-block w-auto max-w-full">
+          ${motifHtml}
 
-        <div class="relative z-10 h-full w-full p-3 bg-white shadow-xl rounded-sm ${isEven ? "rotate-2" : "-rotate-2"} transition-transform duration-500 hover:rotate-0">
-          <img
-            src="${imageUrl}"
-            alt="思い出の写真"
-            class="h-full w-full object-cover rounded-sm"
-          />
+          <div class="relative z-10 p-3 bg-white shadow-xl rounded-sm ${isEven ? "rotate-2" : "-rotate-2"} transition-transform duration-500 hover:rotate-0">
+            <img
+              src="${imageUrl}"
+              alt="思い出の写真"
+              class="max-h-[350px] sm:max-h-[450px] md:max-h-[500px] w-auto max-w-full rounded-sm"
+            />
+          </div>
         </div>
       </div>
 
-      <div class="w-full max-w-md ${isEven ? "md:text-left" : "md:text-right"} text-center z-10">
-        <p class="text-xl sm:text-2xl text-slate-700 leading-loose tracking-wide whitespace-pre-wrap">${message}</p>
+      <div class="w-full flex-1 text-center ${isEven ? "md:text-left" : "md:text-right"} z-10 px-4 sm:px-0">
+        <p class="text-lg sm:text-2xl text-slate-700 leading-loose tracking-wide whitespace-pre-wrap">${message}</p>
       </div>
     </article>
   `;
 };
-
-// ...（app.get("/images/:key"), app.get("/upload"), app.post("/upload"), app.get("/") は変更なし）
 
 app.get("/images/:key", async (c) => {
   const key = c.req.param("key");
@@ -154,15 +151,15 @@ app.get("/upload", (c) => {
   </head>
   <body class="min-h-screen bg-sky-100 text-slate-900 antialiased">
     <div class="mx-auto flex min-h-screen max-w-2xl flex-col px-6 py-10 sm:px-8">
-      <header class="mb-10 rounded-[40px] border border-white/70 bg-white/80 p-8 shadow-[0_25px_80px_rgba(15,23,42,0.08)] backdrop-blur-sm">
-        <h1 class="mb-2 text-3xl font-bold tracking-tight text-slate-900">思い出を記録する</h1>
-        <p class="text-slate-600">てづちゃんとの大切な思い出を追加してください。</p>
+      <header class="mb-10 rounded-[32px] sm:rounded-[40px] border border-white/70 bg-white/80 p-6 sm:p-8 shadow-[0_25px_80px_rgba(15,23,42,0.08)] backdrop-blur-sm">
+        <h1 class="mb-2 text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">思い出を記録する</h1>
+        <p class="text-sm sm:text-base text-slate-600">てづちゃんとの大切な思い出を追加してください。</p>
       </header>
-      <main class="rounded-[32px] bg-white/85 p-8 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+      <main class="rounded-[24px] sm:rounded-[32px] bg-white/85 p-6 sm:p-8 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
         <form action="/upload" method="POST" enctype="multipart/form-data" class="space-y-6">
           <div>
             <label class="mb-2 block text-sm font-medium text-slate-700">写真</label>
-            <input type="file" name="image" accept="image/*" required class="block w-full text-sm text-slate-500 file:mr-4 file:rounded-full file:border-0 file:bg-sky-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-sky-700 hover:file:bg-sky-100" />
+            <input type="file" name="image" accept="image/*" required class="block w-full text-sm text-slate-500 file:block file:mb-3 md:file:inline-block md:file:mb-0 md:file:mr-4 file:rounded-full file:border-0 file:bg-sky-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-sky-700 hover:file:bg-sky-100" />
           </div>
           <div>
             <label class="mb-2 block text-sm font-medium text-slate-700">いつ、どんな場面？</label>
@@ -245,32 +242,33 @@ app.get("/", async (c) => {
       </filter>
     </svg>
 
-    <div class="mx-auto flex min-h-screen max-w-5xl flex-col px-6 py-8 sm:px-12">
+    <div class="mx-auto flex min-h-screen max-w-5xl flex-col px-4 sm:px-12 py-8">
       
-      <header class="relative mb-32 flex justify-between items-start">
-        <a href="/upload" class="inline-flex mt-4 items-center rounded-full bg-white/70 px-6 py-3 text-sm font-bold text-sky-600 shadow-sm backdrop-blur-md hover:bg-white transition-colors">
+      <header class="relative mb-24 sm:mb-32 flex flex-col-reverse md:flex-row justify-between items-center md:items-start gap-12 md:gap-0">
+        
+        <a href="/upload" class="inline-flex mt-4 items-center rounded-full bg-white/70 px-6 py-3 text-sm font-bold text-sky-600 shadow-sm backdrop-blur-md hover:bg-white transition-colors z-20">
           ＋ 思い出を追加
         </a>
 
-        <div class="relative mr-4 sm:mr-10 mt-8">
-          <svg class="absolute -top-16 -left-16 w-36 h-36 opacity-85" viewBox="0 0 100 100">
+        <div class="relative mt-8 md:mt-0">
+          <svg class="absolute -top-12 -left-12 sm:-top-16 sm:-left-16 w-28 h-28 sm:w-36 sm:h-36 opacity-85" viewBox="0 0 100 100">
             <path d="M 10,100 A 90,90 0 0,1 100,10" fill="none" stroke="#ffb3c6" stroke-width="8" stroke-linecap="round" filter="url(#crayon)"/>
             <path d="M 25,100 A 75,75 0 0,1 100,25" fill="none" stroke="#fbe985" stroke-width="8" stroke-linecap="round" filter="url(#crayon)"/>
             <path d="M 40,100 A 60,60 0 0,1 100,40" fill="none" stroke="#a0c4ff" stroke-width="8" stroke-linecap="round" filter="url(#crayon)"/>
           </svg>
 
-          <div class="relative z-10 rounded-[50px] bg-white/85 px-8 py-12 sm:px-12 sm:py-14 text-center shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-sm">
-            <h1 class="text-3xl sm:text-4xl font-bold leading-relaxed text-slate-800">
+          <div class="relative z-10 rounded-[40px] sm:rounded-[50px] bg-white/85 px-8 py-10 sm:px-12 sm:py-14 text-center shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-sm">
+            <h1 class="text-3xl sm:text-4xl font-bold leading-relaxed text-slate-800 whitespace-nowrap">
               てづちゃん<br/>ありがとう
             </h1>
-            <p class="mt-4 text-xl sm:text-2xl text-slate-600 font-medium">
+            <p class="mt-4 text-xl sm:text-2xl text-slate-600 font-medium whitespace-nowrap">
               楽園でまた会おうね
             </p>
           </div>
         </div>
       </header>
 
-      <main class="flex-1 space-y-24 pb-32">
+      <main class="flex-1 space-y-20 sm:space-y-24 pb-32">
         ${memoriesHtml || '<p class="text-center text-slate-500 mt-20 text-lg">まだ思い出がありません。</p>'}
       </main>
     </div>
