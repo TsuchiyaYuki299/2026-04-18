@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS memories;
+CREATE TABLE memories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    image_url TEXT NOT NULL,
+    message TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);

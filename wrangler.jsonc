@@ -17,6 +17,19 @@
 	"upload_source_maps": true,
 	"compatibility_flags": [
 		"nodejs_compat"
+	],
+	"r2_buckets": [
+		{
+			"bucket_name": "tezu-memories-bucket",
+			"binding": "tezu_memories_bucket"
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "tezu_memories_db",
+			"database_name": "tezu-memories-db",
+			"database_id": "2e5ee49e-e631-443b-93af-85d320cc15f7"
+		}
 	]
 	/**
 	 * Smart Placement
