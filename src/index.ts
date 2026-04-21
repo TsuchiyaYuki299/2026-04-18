@@ -105,6 +105,7 @@ const renderMemoryCard = (memory: MemoryRecord, index: number) => {
             <img
               src="${imageUrl}"
               alt="思い出の写真"
+              loading="lazy"
               class="max-h-[350px] sm:max-h-[450px] md:max-h-[500px] w-auto max-w-full rounded-sm"
             />
           </div>
@@ -156,7 +157,7 @@ app.get("/upload", (c) => {
         <p class="text-sm sm:text-base text-slate-600">てづちゃんとの大切な思い出を追加してください。</p>
       </header>
       <main class="rounded-[24px] sm:rounded-[32px] bg-white/85 p-6 sm:p-8 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-        <form action="/upload" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <form id="upload-form" action="/upload" method="POST" enctype="multipart/form-data" class="space-y-6">
           <div>
             <label class="mb-2 block text-sm font-medium text-slate-700">写真</label>
             <input type="file" name="image" accept="image/*" required class="block w-full text-sm text-slate-500 file:block file:mb-3 md:file:inline-block md:file:mb-0 md:file:mr-4 file:rounded-full file:border-0 file:bg-sky-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-sky-700 hover:file:bg-sky-100" />
@@ -167,11 +168,21 @@ app.get("/upload", (c) => {
           </div>
           <div class="flex items-center justify-between pt-4">
             <a href="/" class="text-sm font-medium text-sky-600 hover:text-sky-800">← 戻る</a>
-            <button type="submit" class="rounded-full bg-sky-400 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-500">保存する</button>
+            <button id="submit-btn" type="submit" class="rounded-full bg-sky-400 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 transition-colors">保存する</button>
           </div>
         </form>
       </main>
     </div>
+
+    <script>
+      document.getElementById('upload-form').addEventListener('submit', function() {
+        const btn = document.getElementById('submit-btn');
+        btn.disabled = true;
+        btn.innerText = 'アップロード中...';
+        btn.classList.add('opacity-70', 'cursor-not-allowed');
+        btn.classList.remove('hover:bg-sky-500');
+      });
+    </script>
   </body>
 </html>`;
   return c.html(html);
@@ -185,7 +196,22 @@ app.post("/upload", async (c) => {
 
     if (!(image instanceof File)) return c.html("画像が必要です", 400);
 
-    const ext = image.name.split(".").pop() || "jpg";
+    if (!image.type.startsWith("image/")) {
+      return c.html("画像ファイルのみアップロード可能です", 400);
+    }
+
+    const MAX_SIZE = 10 * 1024 * 1024;
+    if (image.size > MAX_SIZE) {
+      return c.html(
+        "ファイルサイズが大きすぎます。10MB以下の画像にしてください",
+        400,
+      );
+    }
+
+    const allowedExts = ["jpg", "jpeg", "png", "gif", "webp", "avif"];
+    const originalExt = (image.name.split(".").pop() || "").toLowerCase();
+    const ext = allowedExts.includes(originalExt) ? originalExt : "jpg";
+
     const key = `${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`;
 
     await c.env.tezu_memories_bucket.put(key, await image.arrayBuffer(), {
@@ -200,7 +226,7 @@ app.post("/upload", async (c) => {
 
     return c.redirect("/");
   } catch (error) {
-    return c.html("アップロード失敗", 500);
+    return c.html("アップロードに失敗しました", 500);
   }
 });
 
