@@ -226,6 +226,7 @@ app.post("/upload", async (c) => {
 
     return c.redirect("/");
   } catch (error) {
+    console.error(`例外が発生しました：${error}`);
     return c.html("アップロードに失敗しました", 500);
   }
 });
