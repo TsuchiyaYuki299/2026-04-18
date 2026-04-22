@@ -303,7 +303,7 @@ app.get("/", async (c) => {
 
     return c.html(html);
   } catch (e) {
-    console.error(e);
+    console.error(`例外が発生しました：${e}`);
     return c.html("読み込み失敗", 500);
   }
 });
