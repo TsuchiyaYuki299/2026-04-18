@@ -36,7 +36,8 @@
         "anikethsaha.htmllinter",
         "kisstamas.vscode-image-preview",
         "glennmccomb.livedoc-sass-compiler",
-        "ms-ceintl.vscode-language-pack-ja"
+        "ms-ceintl.vscode-language-pack-ja",
+        "SonarSource.sonarlint-vscode"
       ]
     }
   }
