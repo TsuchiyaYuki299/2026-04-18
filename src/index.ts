@@ -40,16 +40,16 @@ const renderMemoryCard = (memory: MemoryRecord, index: number) => {
   const isEven = index % 2 === 0;
   const flexDir = isEven ? "md:flex-row" : "md:flex-row-reverse";
 
-  const rainbowSvg = !isEven
-    ? `
+  const rainbowSvg = isEven
+    ? ""
+    : `
     <div class="hidden md:block absolute -left-16 sm:-left-32 top-1/2 -translate-y-1/2">
       <svg class="w-40 h-40 opacity-85" viewBox="0 0 100 100">
         <path d="M 10,100 A 90,90 0 0,1 100,10" fill="none" stroke="#ffb3c6" stroke-width="7" stroke-linecap="round" filter="url(#crayon)"/>
         <path d="M 23,100 A 77,77 0 0,1 100,23" fill="none" stroke="#fbe985" stroke-width="7" stroke-linecap="round" filter="url(#crayon)"/>
         <path d="M 36,100 A 64,64 0 0,1 100,36" fill="none" stroke="#a0c4ff" stroke-width="7" stroke-linecap="round" filter="url(#crayon)"/>
       </svg>
-    </div>`
-    : "";
+    </div>`;
 
   const motifType = index % 3;
   let motifHtml = "";
