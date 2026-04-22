@@ -212,7 +212,7 @@ app.post("/upload", async (c) => {
     const originalExt = (image.name.split(".").pop() || "").toLowerCase();
     const ext = allowedExts.includes(originalExt) ? originalExt : "jpg";
 
-    const key = `${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`;
+    const key = `${Date.now()}-${crypto.randomUUID()}.${ext}`;
 
     await c.env.tezu_memories_bucket.put(key, await image.arrayBuffer(), {
       httpMetadata: { contentType: image.type },
